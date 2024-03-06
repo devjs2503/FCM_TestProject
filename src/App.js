@@ -1,7 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect } from 'react';
+import { generateToken, messaging } from './notification/firebase';
+import { onMessage } from 'firebase/messaging';
+import { toast } from 'react-toastify';
 
 function App() {
+  useEffect(()=>{
+    generateToken()
+    onMessage(messaging,(payload)=>{
+      console.log("payload", payload);
+      toast.success(payload.notification.title + " - " + payload.notification.body)
+    })
+  })
   return (
     <div className="App">
       <header className="App-header">
